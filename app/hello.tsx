@@ -1,4 +1,3 @@
-"use client";
 import Card from "@/components/home/card";
 import { DEPLOY_URL } from "@/lib/constants";
 import { Github, Twitter } from "@/components/shared/icons";
@@ -6,16 +5,29 @@ import WebVitals from "@/components/home/web-vitals";
 import ComponentGrid from "@/components/home/component-grid";
 import Image from "next/image";
 import { nFormatter } from "@/lib/utils";
-import { useSignInModal } from "../components/layout/sign-in-modal";
 
-export default async function Home() {
-  const { SignInModal, setShowSignInModal } = useSignInModal();
+export default async function Hello() {
+  const { stargazers_count: stars } = await fetch(
+    "https://api.github.com/repos/steven-tey/precedent",
+    {
+      ...(process.env.GITHUB_OAUTH_TOKEN && {
+        headers: {
+          Authorization: `Bearer ${process.env.GITHUB_OAUTH_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+      }),
+      // data will revalidate every 24 hours
+      next: { revalidate: 86400 },
+    },
+  )
+    .then((res) => res.json())
+    .catch((e) => console.log(e));
 
   return (
     <>
       <div className="z-10 w-full max-w-xl px-5 xl:px-0">
         <a
-          href="https://log.rky.me"
+          href="https://twitter.com/steventey/status/1613928948915920896"
           target="_blank"
           rel="noreferrer"
           className="mx-auto mb-5 flex max-w-fit animate-fade-up items-center justify-center space-x-2 overflow-hidden rounded-full bg-blue-100 px-7 py-2 transition-colors hover:bg-blue-200"
@@ -42,12 +54,12 @@ export default async function Home() {
         >
           <a
             className="group flex max-w-fit items-center justify-center space-x-2 rounded-full border border-blue-500 bg-blue-500 px-5 py-2 text-sm text-black transition-colors hover:bg-white hover:text-black"
-            href={'https://fsl.rky.me'}
+            href={DEPLOY_URL}
             target="_blank"
             rel="noopener noreferrer"
           >
            
-            <p onClick={() => setShowSignInModal(true)}>Try Sign Language AI</p>
+            <p className="text-[#171717]">Try Sign Language AI</p>
           </a>
         </div>
       </div>

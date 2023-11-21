@@ -21,7 +21,7 @@ export default function NavBar({ session }: { session: Session | null }) {
             : "bg-white/0"
         } z-30 transition-all`}
       >
-        <div className="mx-5 flex h-16 max-w-screen-xl items-center justify-between w-full">
+        <div className="mx-5 flex h-16 max-w-screen-xl items-center justify-between w-full text-black">
           <Link href="/" className="flex items-center font-display text-2xl">
             <Image
               src="/logo.png"
@@ -30,14 +30,14 @@ export default function NavBar({ session }: { session: Session | null }) {
               height="30"
               className="mr-2 rounded-sm"
             ></Image>
-            <p>Precedent</p>
+            <p>Research</p>
           </Link>
           <div>
             {session ? (
               <UserDropdown session={session} />
             ) : (
               <button
-                className="rounded-full border border-black bg-black p-1.5 px-4 text-sm text-white transition-all hover:bg-white hover:text-black"
+                className="rounded-full border border-black bg-white p-1.5 px-4 text-sm text-black transition-all hover:bg-white hover:text-black"
                 onClick={() => setShowSignInModal(true)}
               >
                 Sign In

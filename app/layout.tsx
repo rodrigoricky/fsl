@@ -7,10 +7,9 @@ import Footer from "@/components/layout/footer";
 import { Suspense } from "react";
 
 export const metadata = {
-  title: "Precedent - Building blocks for your Next.js project",
+  title: "FSL - Sign Language AI",
   description:
-    "Precedent is the all-in-one solution for your Next.js project. It includes a design system, authentication, analytics, and more.",
-  metadataBase: new URL("https://precedent.dev"),
+    "Developing a Webcam-Driven AI for Translating Filipino Sign Language to Text",
   themeColor: "#FFF",
 };
 
@@ -27,7 +26,7 @@ export default async function RootLayout({
           <Nav />
         </Suspense>
         <main className="flex min-h-screen w-full flex-col items-center justify-center py-32">
-          {children}
+        {children}
         </main>
         <Footer />
         <Analytics />
