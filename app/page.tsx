@@ -1,20 +1,45 @@
 "use client";
-import { useRef, useState, useEffect} from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { useDemoModal } from "@/components/home/demo-modal";
 import Webcam from "react-webcam";
 
+
 export default function Home() {
   const { DemoModal, setShowDemoModal } = useDemoModal();
+  const [permissionStatus, setPermissionStatus] = useState<PermissionState>("prompt");
   const permissionName = "camera" as PermissionName;
+
   useEffect(() => {
-    
     navigator.permissions.query({name: permissionName }).then(function(permissionStatus) {
+      setPermissionStatus(permissionStatus.state);
       if (permissionStatus.state == 'denied' ) {
         setShowDemoModal(true)
         console.log('Permission to use camera is denied');
+      } else if (permissionStatus.state == 'prompt') {
+        console.log('Permission to use camera is prompt');
       }
+
+      permissionStatus.onchange = function() {
+        setPermissionStatus(this.state);
+        if (this.state == 'denied') {
+          setShowDemoModal(true);
+        } else {
+          setShowDemoModal(false);
+        }
+      };
     });
   }, []);
+
+  useEffect(() => {
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(() => {console.log('You let me use your camera!')}).catch(function(err) {console.log('No camera for you!', err)});
+  }, []);
+  
+  let pText = ''
+  pText = 'No Text Detected'
+
+  let pLetter = ''
+  pLetter = 'No Letter Detected'
 
   return (
     <>
@@ -47,12 +72,16 @@ export default function Home() {
 
       <div className="z-10 w-full max-w-xl px-6 xl:px-0 mt-14">
         
-        <Webcam 
-            className="mx-auto mt-2 flex animate-fade-up items-center justify-center space-x-2 rounded-lg border border-gray-200 bg-white px-4 py-2 transition-all duration-75 hover:scale-105" 
+        {permissionStatus === "prompt" ? (
+          <div className="text-center -auto mt-2 flex animate-fade-up items-center justify-center space-x-2 rounded-lg border border-gray-200 bg-white px-4 py-2 transition-all duration-75 hover:scale-105">Please grant webcam permission to use the sign language translator.</div>
+        ) : (
+          <Webcam
+            className="mx-auto mt-2 flex animate-fade-up items-center justify-center space-x-2 rounded-lg border border-gray-200 bg-white px-4 py-2 transition-all duration-75 hover:scale-105"
             disablePictureInPicture={true}
             audio={false}
             mirrored={false}
-        />
+          />
+        )}
         <div className="mx-auto mt-6 flex animate-fade-up items-center justify-center space-x-5 opacity-0 font-medium" style={{ animationFillMode: "forwards" }} >
           <a className="group flex max-w-fit items-center justify-center space-x-2 rounded-full border border-blue-500 bg-blue-500 px-5 py-2 text-sm text-white transition-colors hover:bg-white hover:text-black" > 
             <p>Predicted Letters</p>
@@ -60,7 +89,7 @@ export default function Home() {
         </div>
 
         <a className="mx-auto mt-2 flex animate-fade-up max-w-fit items-center justify-center space-x-2 rounded-lg border border-gray-200 bg-white px-4 py-2 transition-all duration-75 hover:scale-105">
-          <p className="font-medium text-gray-600">P</p>
+          <p className="font-medium text-gray-600">{pLetter}</p>
         </a>
 
         <div className="mx-auto mt-6 flex animate-fade-up items-center justify-center space-x-5 opacity-0 font-medium mt-12" style={{ animationFillMode: "forwards" }} >
@@ -70,10 +99,9 @@ export default function Home() {
         </div>
 
         <a className="mx-auto mt-2 flex animate-fade-up max-w-fit items-center justify-center space-x-2 rounded-lg border border-gray-200 bg-white px-10 py-3 transition-all duration-75 hover:scale-105" >
-          <p className="font-bold text-gray-600">Lorem Ipsum; Text Here</p>
+          <p className="font-bold text-gray-600">{pText}</p>
         </a>
 
-       {/* {features.map(({ title, description, demo, large }) => ( <Card key={title} title={title} description={description} demo={ title === "Beautiful, reusable components" ? ( <ComponentGrid /> ) : (demo)} large={large} /> ))} */}
       </div>
     </>
   );
