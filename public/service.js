@@ -1,3 +1,4 @@
+console.log('service.js loaded');
 class CV {
   /**
    * We will use this method privately to communicate with the worker and
