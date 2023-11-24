@@ -6,10 +6,45 @@ import service from '../public/service';
 import React from "react";
 
 const maxVideoSize = 224;
+const LETTERS = [
+  'A',
+  'B',
+  'C',
+  'D',
+  'E',
+  'F',
+  'G',
+  'H',
+  'I',
+  'J',
+  'K',
+  'L',
+  'M',
+  'N',
+  'O',
+  'P',
+  'Q',
+  'R',
+  'S',
+  'T',
+  'U',
+  'V',
+  'W',
+  'X',
+  'Y',
+  'Z',
+  '_NOTHING',
+  '_SPACE',
+];
 const THRESHOLD = 5;
-const THRESHOLDS = { S: 3, E: 5, A: 5, N: 6, R: 5 };
-const LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", 'N', "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X",'Y', "Z", '_NOTHING', '_SPACE'];
 
+const THRESHOLDS = {
+  S: 3,
+  E: 5,
+  A: 5,
+  N: 6,
+  R: 5,
+};
 export default function Home() {
   const { DemoModal, setShowDemoModal } = useDemoModal();
   const [permissionStatus, setPermissionStatus] = useState<PermissionState>("prompt");
