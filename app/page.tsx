@@ -212,7 +212,7 @@ export default function Home() {
         ) : (
           <>
             <video
-              className="mx-auto mt-2 flex animate-fade-up items-center justify-center space-x-2 rounded-lg border border-gray-200 bg-white px-4 py-2 transition-all duration-75 hover:scale-105"
+              className=" transform-scale-x mx-auto mt-2 flex animate-fade-up items-center justify-center space-x-2 rounded-lg border border-gray-200 bg-white px-4 py-2 transition-all duration-75 hover:scale-105"
               playsInline
               ref={videoElement}
             />
